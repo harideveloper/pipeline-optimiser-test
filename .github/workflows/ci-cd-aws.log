@@ -1,0 +1,199 @@
+GitHub Actions Workflow Run #847
+Triggered by: push to main
+Commit: a3f5b2c - "Add payment gateway integration"
+Started: 2025-10-22 14:32:15 UTC
+
+================================================================================
+JOB: test
+================================================================================
+Runner: ubuntu-latest (ubuntu-22.04)
+Started: 14:32:18
+
+Step: Checkout code
+✓ Checking out repository... (2s)
+
+Step: Setup Node.js
+✓ Downloading Node.js 18.x... (8s)
+✓ Setting up Node.js environment... (1s)
+
+Step: Install dependencies
+Running: npm install
+⚠ npm WARN deprecated package@1.2.3
+⚠ npm WARN deprecated another-package@4.5.6
+✓ added 1247 packages in 47s
+✓ Step completed (47s)
+
+Step: Run linting
+Running: npm run lint
+✓ 156 files linted successfully
+✓ Step completed (8s)
+
+Step: Run unit tests
+Running: npm run test:unit
+ PASS  src/utils/validation.test.js
+ PASS  src/services/payment.test.js
+ PASS  src/controllers/order.test.js
+ PASS  src/models/user.test.js
+✓ 124 tests passed (12.4s)
+✓ Step completed (14s)
+
+Step: Run integration tests
+Running: npm run test:integration
+ PASS  tests/integration/api.test.js
+ PASS  tests/integration/database.test.js
+✓ 34 tests passed (18.7s)
+✓ Step completed (21s)
+
+Step: Generate coverage report
+Running: npm run test:coverage
+✓ Coverage report generated
+  Statements: 87.4% (1247/1426)
+  Branches: 82.3% (456/554)
+  Functions: 89.1% (234/263)
+  Lines: 87.8% (1198/1364)
+✓ Step completed (15s)
+
+Job completed in 2m 8s
+
+================================================================================
+JOB: build (waiting for test to complete...)
+================================================================================
+Runner: ubuntu-latest (ubuntu-22.04)
+Started: 14:34:26
+
+Step: Checkout code
+✓ Checking out repository... (2s)
+
+Step: Setup Node.js
+✓ Downloading Node.js 18.x... (9s)
+✓ Setting up Node.js environment... (1s)
+
+Step: Install dependencies
+Running: npm install
+⚠ npm WARN deprecated package@1.2.3
+⚠ npm WARN deprecated another-package@4.5.6
+✓ added 1247 packages in 51s
+✓ Step completed (51s)
+
+Step: Build application
+Running: npm run build
+✓ Compiling TypeScript...
+✓ Bundling assets...
+✓ Optimizing production build...
+✓ Build artifacts created in dist/
+✓ Step completed (34s)
+
+Step: Build Docker image
+Running: docker build
+[1/8] FROM node:18-alpine
+[2/8] WORKDIR /app
+[3/8] COPY package*.json ./
+[4/8] RUN npm ci --only=production
+[5/8] COPY dist ./dist
+[6/8] EXPOSE 3000
+[7/8] CMD ["node", "dist/server.js"]
+✓ Image built: myapp:a3f5b2c (1m 12s)
+✓ Image tagged: myapp:latest
+✓ Step completed (1m 18s)
+
+Step: Login to Docker Hub
+✓ Login successful
+✓ Step completed (2s)
+
+Step: Push Docker image
+Pushing: myapp:a3f5b2c
+Layer 1/5: Pushed (14.2 MB)
+Layer 2/5: Pushed (45.7 MB)
+Layer 3/5: Pushed (234 KB)
+Layer 4/5: Pushed (1.2 MB)
+Layer 5/5: Pushed (567 KB)
+✓ Image pushed: myapp:a3f5b2c (47s)
+
+Pushing: myapp:latest
+✓ Image pushed: myapp:latest (12s)
+✓ Step completed (1m 1s)
+
+Job completed in 4m 19s
+
+================================================================================
+JOB: security-scan (waiting for build to complete...)
+================================================================================
+Runner: ubuntu-latest (ubuntu-22.04)
+Started: 14:38:45
+
+Step: Checkout code
+✓ Checking out repository... (2s)
+
+Step: Setup Node.js
+✓ Downloading Node.js 18.x... (8s)
+✓ Setting up Node.js environment... (1s)
+
+Step: Install dependencies
+Running: npm install
+⚠ npm WARN deprecated package@1.2.3
+⚠ npm WARN deprecated another-package@4.5.6
+✓ added 1247 packages in 49s
+✓ Step completed (49s)
+
+Step: Run security audit
+Running: npm audit
+found 0 vulnerabilities
+✓ Step completed (5s)
+
+Step: Run Snyk scan
+Installing Snyk globally... (8s)
+Running security scan...
+✓ No high severity vulnerabilities found
+✓ Step completed (23s)
+
+Job completed in 1m 36s
+
+================================================================================
+JOB: deploy-production (waiting for build, security-scan...)
+================================================================================
+Runner: ubuntu-latest (ubuntu-22.04)
+Started: 14:40:21
+
+Step: Checkout code
+✓ Checking out repository... (2s)
+
+Step: Configure AWS credentials
+✓ AWS credentials configured
+✓ Step completed (1s)
+
+Step: Deploy to ECS Production
+Running: aws ecs update-service...
+✓ Service update initiated
+  Cluster: prod-cluster
+  Service: myapp-service
+  Task Definition: myapp-task:45
+✓ Step completed (7s)
+
+Step: Wait for deployment
+Waiting 90 seconds for deployment to stabilize...
+✓ Step completed (1m 30s)
+
+Step: Run smoke tests
+Running: curl -f https://myapp.com/health
+✓ Health check passed (200 OK)
+Running: curl -f https://myapp.com/api/status
+✓ API status check passed (200 OK)
+✓ Step completed (4s)
+
+Step: Notify Slack
+✓ Slack notification sent
+✓ Step completed (1s)
+
+Job completed in 2m 47s
+
+================================================================================
+WORKFLOW SUMMARY
+================================================================================
+Total workflow time: 11m 10s
+✓ test: 2m 8s
+✓ build: 4m 19s
+✓ security-scan: 1m 36s
+✓ deploy-production: 2m 47s
+
+Status: ✓ SUCCESS
+All jobs completed successfully
