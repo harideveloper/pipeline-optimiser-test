@@ -20,17 +20,17 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          cd backend
+          cd app/backend
           npm ci
 
       - name: Run backend tests
         run: |
-          cd backend
+          cd app/backend
           npm test -- --passWithNoTests
 
       - name: Build backend Docker image
         run: |
-          docker build -t myapp-backend:latest ./backend
+          docker build -t myapp-backend:latest ./app/backend
 
   frontend:
     runs-on: ubuntu-latest
@@ -46,22 +46,22 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          cd frontend
+          cd app/frontend
           npm ci
 
       - name: Run frontend tests
         run: |
-          cd frontend
+          cd app/frontend
           npm test -- --passWithNoTests
 
       - name: Build frontend
         run: |
-          cd frontend
+          cd app/frontend
           npm run build
 
       - name: Build frontend Docker image
         run: |
-          docker build -t myapp-frontend:latest ./frontend
+          docker build -t myapp-frontend:latest ./app/frontend
 
   deploy:
     runs-on: ubuntu-latest
