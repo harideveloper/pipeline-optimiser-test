@@ -1,4 +1,4 @@
-name: Full Stack CI - Quality & Tests
+name: Full Stack Linter CI
 
 on:
   push:
