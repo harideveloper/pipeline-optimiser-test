@@ -13,6 +13,9 @@ jobs:
       matrix:
         service: [backend, frontend]
     name: Lint, Test & Scan (${{ matrix.service }})
+    defaults:
+      run:
+        working-directory: app/${{ matrix.service }}
 
     steps:
       - name: Checkout
@@ -26,26 +29,16 @@ jobs:
           cache-dependency-path: app/${{ matrix.service }}/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd app/${{ matrix.service }}
-          npm ci || npm install
+        run: npm ci
 
       - name: Run ESLint
-        run: |
-          cd app/${{ matrix.service }}
-          npx eslint . --max-warnings=20
+        run: npx eslint . --max-warnings=0
 
       - name: Run Prettier check
-        run: |
-          cd app/${{ matrix.service }}
-          npx prettier --check .
+        run: npx prettier --check .
 
       - name: Run unit tests
-        run: |
-          cd app/${{ matrix.service }}
-          npm test -- --passWithNoTests
+        run: npm test -- --passWithNoTests
 
       - name: Run security audit
-        run: |
-          cd app/${{ matrix.service }}
-          npm audit --production || true
+        run: npm audit --production
