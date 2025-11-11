@@ -2,7 +2,7 @@ name: Full Stack CD - Build, Test & Deploy
 
 on:
   workflow_run:
-    workflows: ["Full Stack CI - Quality & Tests"]
+    workflows: ["Full Stack Linter CI"]
     types: [completed]
 
 jobs:
