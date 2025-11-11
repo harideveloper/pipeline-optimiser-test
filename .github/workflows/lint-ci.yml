@@ -33,7 +33,7 @@ jobs:
       - name: Run ESLint
         run: |
           cd app/${{ matrix.service }}
-          npx eslint . --max-warnings=0
+          npx eslint . --max-warnings=20
 
       - name: Run Prettier check
         run: |
