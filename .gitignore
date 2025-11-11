@@ -1,0 +1,96 @@
+# ================================
+#  General
+# ================================
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.local
+.env.*.local
+.vscode/
+.idea/
+*.swp
+
+# ================================
+#  Node.js / npm
+# ================================
+node_modules/
+npm-cache/
+.pnpm-store/
+dist/
+build/
+coverage/
+.cache/
+.tmp/
+*.tsbuildinfo
+
+# Ignore lockfiles from temporary installs (keep committed ones)
+# !app/backend/package-lock.json
+# !app/frontend/package-lock.json
+
+# ================================
+#  Frontend (React / Vite / Next)
+# ================================
+app/frontend/.next/
+app/frontend/out/
+app/frontend/.nuxt/
+app/frontend/.cache/
+app/frontend/.vite/
+app/frontend/build/
+app/frontend/coverage/
+app/frontend/node_modules/
+
+# ================================
+#  Backend (Express / Node)
+# ================================
+app/backend/node_modules/
+app/backend/logs/
+app/backend/coverage/
+app/backend/.nyc_output/
+app/backend/tmp/
+app/backend/dist/
+
+# ================================
+#  Docker
+# ================================
+*.pid
+*.seed
+docker-compose.override.yml
+docker-compose.dev.yml
+.env.docker
+.env.test
+docker-data/
+.docker/
+**/.dockerignore
+
+# ================================
+#  GitHub Actions / CI artifacts
+# ================================
+# (Actions keeps its own workspace; ignore local build outputs)
+.github/*.log
+.github/workflows/*.bak
+.github/workflows/*.tmp
+
+# ================================
+#  OS / Editor junk
+# ================================
+*~
+*.bak
+*.tmp
+*.old
+*.orig
+*.rej
+*.sublime-project
+*.sublime-workspace
+
+# ================================
+#  Generated test or integration data
+# ================================
+coverage/
+reports/
+jest-html-reporters-*.html
+test-results.xml
